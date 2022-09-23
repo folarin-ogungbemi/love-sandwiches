@@ -1,6 +1,5 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from pprint import pprint
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -13,12 +12,6 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('love_sandwiches')
 
-#sales = SHEET.worksheet('sales')
-
-#data = sales.get_all_values()
-
-#print(data)
-
 def get_sales_data():
     """
     Get sales figures input from the user
@@ -28,8 +21,7 @@ def get_sales_data():
         print("Data should be six numbers, seperated by commas.")
         print("Example: 10,20,30,40,50,60\n")
 
-        data_str = input("Enter your data here: ")
-        #print(f"The data you provided is {data_str}")
+        data_str = input("Enter your data here:\n")
 
         sales_data = data_str.split(",")
 
@@ -68,8 +60,6 @@ def calculate_surplus_data(sales_row):
     print("Calculatin surplus data....\n")
     stock = SHEET.worksheet("stock").get_all_values()
     stock_row = stock[-1]
-    #print(f"stock row: {stock_row}")
-    #print(f"sales row: {sales_row}")
 
     surplus_data = []
     for stock, sales in zip(stock_row, sales_row):
@@ -98,7 +88,7 @@ def get_last_5_entries_sales():
     sales = SHEET.worksheet("sales")
 
     columns = []
-    for ind in range(1,7):
+    for ind in range(1 , 7):
         column = sales.col_values(ind)
         columns.append(column[-5:])
 
